@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myDirectory= (ListView) findViewById(R.id.myDirectory);
+        getWindow().setNavigationBarColor(Color.parseColor("#252525"));
 
 
         String[] permissionArrays = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
