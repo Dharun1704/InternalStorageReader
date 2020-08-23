@@ -22,7 +22,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<String> fileList=new ArrayList<>();
+    private List<String> fileList = new ArrayList<>();
+    private List<String> fileNameList = new ArrayList<>();
     public  ListView myDirectory;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myDirectory= (ListView) findViewById(R.id.myDirectory);
+        myDirectory=  findViewById(R.id.myDirectory);
         getWindow().setNavigationBarColor(Color.parseColor("#252525"));
 
 
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 101 ) {
             boolean isPermitted = false;
             for (int i = 0; i < grantResults.length; i++) {
-                String permission = permissions[i];
                 isPermitted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             }
 
@@ -65,13 +65,15 @@ public class MainActivity extends AppCompatActivity {
     void ListDir(File f){
         File[] files = f.listFiles();
         fileList.clear();
+        fileNameList.clear();
         if (files != null) {
             for (File file : files) {
                 fileList.add(file.getPath());
+                fileNameList.add(file.getName());
             }
         }
 
-        Adapter directoryList=new Adapter(this,fileList);
+        Adapter directoryList=new Adapter(this,fileList, fileNameList);
         myDirectory.setAdapter(directoryList);
 
         myDirectory.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -21,11 +21,13 @@ public class Adapter extends BaseAdapter {
 
 
     private Context mContext;
+    private List<String> dPathList;
     private List<String> dNameList;
 
-    public Adapter(Context mContext, List<String> dnames) {
+    public Adapter(Context mContext, List<String> dPaths, List<String> dNames) {
         this.mContext = mContext;
-        this.dNameList = dnames;
+        this.dPathList = dPaths;
+        this.dNameList = dNames;
     }
 
     @Override
@@ -46,13 +48,14 @@ public class Adapter extends BaseAdapter {
     @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        List<String> fileList=new ArrayList<>();
+        List<String> fileList = new ArrayList<>();
+        List<String> fileNameList = new ArrayList<>();
 
         View v = LayoutInflater.from(mContext).inflate(R.layout.list_group, viewGroup, false);
         TextView dName = v.findViewById(R.id.dNames);
 
         ImageView arrow = v.findViewById(R.id.arrow);
-        final ListView myDirectory= (ListView) v.findViewById(R.id.dNameList);
+        final ListView myDirectory=  v.findViewById(R.id.dNameList);
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,17 +69,19 @@ public class Adapter extends BaseAdapter {
 
         dName.setText(dNameList.get(i));
 
-        File[] files = new File(dNameList.get(i)).listFiles();
+        File[] files = new File(dPathList.get(i)).listFiles();
         fileList.clear();
+        fileNameList.clear();
         if (files != null) {
             for (File file : files) {
                 fileList.add(file.getPath());
+                fileNameList.add(file.getName());
             }
         }
 
 
 
-        Adapter directoryList=new Adapter(mContext,fileList);
+        Adapter directoryList=new Adapter(mContext,fileList, fileNameList);
         myDirectory.setAdapter(directoryList);
 
         myDirectory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
